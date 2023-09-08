@@ -35,7 +35,6 @@ function App() {
     }
   };
 
-
   const addBillItem = async () => {
     if (selectedPeople.length === 0 || price === 0) {
       alert('Please select people and enter a valid price.');
@@ -43,6 +42,7 @@ function App() {
     }
 
     const amountPerPerson = price / selectedPeople.length;
+    const newBillItems: BillItem[] = [];
 
     for (const person of selectedPeople) {
       try {
@@ -55,12 +55,12 @@ function App() {
           iban: iban,
         };
 
-        setBillItems([...billItems, newBillItem]);
+        newBillItems.push(newBillItem);
       } catch (error: any) {
         console.error(`Failed to register for a person ${person}: ${error.message}`);
       }
     }
-
+    setBillItems([...billItems, ...newBillItems]);
     setPrice(0);
     setSelectedPeople([]);
   };
